@@ -1,21 +1,24 @@
 subroutine rubber(input, length)
-    use iso_c_binding
     use json_module
     implicit none
 
-    
-    type(json_file) :: json
+    type(json_core) :: json
+    type(json_value),pointer :: p
+    type(json_value),POINTER :: scheduleJson
     INTEGER :: length
-    CHARACTER :: input(length)
+    INTEGER :: i
+    CHARACTER(len=length) :: input
+    logical :: found
 
+    call json%create_object(p, '')
+    call json%deserialize(p, input)
 
-    call json%initialize()
+    call json%get(p, 'simulation.schedule', scheduleJson, found)
 
-    call json%deserialize('{\"hello\":\"world\"}')
-    call json%print()
+    call json%print(scheduleJson)
 
-
-    
-    print *, input(1:length)
+    do i = 1, json%count(scheduleJson)
+        print *, i
+    end do
 
 end subroutine

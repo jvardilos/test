@@ -5,8 +5,6 @@ package util
 import "C"
 
 func Run(input string) {
-
 	inputStr := C.CString(input)
 	C.Run(inputStr)
-
 }
